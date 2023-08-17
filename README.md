@@ -51,3 +51,10 @@
 
 > PUT /api/bank-accounts/{bankAccountId}/transfer - перевод средств на другой счет по id счета и номера счета для перевода, 
 > принимает пин-код, сумму и номер счета для перевода, пин-код не может быть пустым, должен иметь 4 цифр и должен совпадать с пин-кодом счета
+
+## Запуск в кубере
+1) Собрать .jar файла сервиса в приложении (mvn package)
+2) Собрать контейнер (ввести в терминал docker build -t test-kuber-deployment:1.0 .)
+3) kubectl apply -f deployment.yaml
+4) kubectl apply -f service.yaml
+5) проверить kubectl get service

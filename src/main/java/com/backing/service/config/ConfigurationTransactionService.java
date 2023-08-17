@@ -19,6 +19,12 @@ public class ConfigurationTransactionService {
         for (TransactionService transactionService : transactionServices) {
             map.put(transactionService.getType(), transactionService);
         }
+        //s
+        //s1
+        //s2
+        //s3
         return map;
+
     }
+
 }

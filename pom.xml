@@ -15,7 +15,7 @@
     <name>backing-service</name>
     <description>backing-service</description>
     <properties>
-        <java.version>20</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -67,6 +67,7 @@
     </dependencies>
 
     <build>
+        <finalName>backing-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

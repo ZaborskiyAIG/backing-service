@@ -57,6 +57,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     private Map<Long, List<BankAccountResponseDto>> getBeneficiaryIdToBankAccountMapByBeneficiaryIds(List<Long> beneficiaryIds) {
         List<BankAccountResponseDto> bankAccounts = bankAccountRepository.getByBeneficiaryIds(beneficiaryIds);
+
+
         return bankAccounts.stream()
                 .collect(Collectors.groupingBy(BankAccountResponseDto::getBeneficiaryId));
     }

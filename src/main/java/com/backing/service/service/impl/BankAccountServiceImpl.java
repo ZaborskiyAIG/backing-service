@@ -39,6 +39,8 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccountRepository.save(bankAccount);
     }
 
+
+
     @Override
     public Page<BeneficiaryBankAccountResponseDto> getBeneficiaryBankAccountResponseDto(Integer pageNumber, Integer itemsOnPage) {
         Page<BeneficiaryBankAccountResponseDto> page = beneficiaryRepository.getAllBeneficiaryDto(PageRequest.of(pageNumber - 1, itemsOnPage));

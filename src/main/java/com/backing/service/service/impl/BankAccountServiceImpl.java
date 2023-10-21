@@ -60,4 +60,6 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccounts.stream()
                 .collect(Collectors.groupingBy(BankAccountResponseDto::getBeneficiaryId));
     }
+
+
 }

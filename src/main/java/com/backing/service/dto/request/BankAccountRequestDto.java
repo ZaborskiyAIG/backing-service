@@ -12,6 +12,7 @@ public class BankAccountRequestDto {
     @NotBlank(message = "username не должен быть пустым")
     private String username;
 
+
     @NotBlank(message = "пин-код не должен быть пустым")
     @Pattern(regexp="[\\d]{4}", message = "пин-код должен состоять из 4 цифр")
     private String pinCode;

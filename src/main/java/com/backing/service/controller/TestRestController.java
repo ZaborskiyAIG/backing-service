@@ -39,7 +39,7 @@ public class TestRestController {
             @ApiResponse(responseCode = "200", description = "Получилось"),
             @ApiResponse(responseCode = "400", description = "облажался")
     })
-    @GetMapping
+    @GetMapping("/v2")
     public ResponseEntity<String> getServiceV2() {
         log.info("отправили запрос");
         return ResponseEntity.ok(producer.getPing());

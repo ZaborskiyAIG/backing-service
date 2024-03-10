@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-manual
+  labels:
+    app: kubia-manual
+spec:
+  containers:
+    - name: kubia-manual
+      image: gusanimax/consumer:2.5
+      ports:
+        - containerPort: 5555
+          protocol: TCP
+  

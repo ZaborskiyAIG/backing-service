@@ -3,6 +3,7 @@ package com.backing.service.controller;
 import com.backing.service.dto.request.BankAccountRequestDto;
 import com.backing.service.dto.response.BeneficiaryBankAccountResponseDto;
 import com.backing.service.service.BankAccountService;
+import com.backing.service.service.impl.BankAccountServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/bank-accounts")
 @Validated
-@AllArgsConstructor
 public class BankAccountRestController {
 
-    private final BankAccountService bankAccountService;
+    @Autowired
+    private BankAccountService bankAccountService;
 
     @Operation(summary = "Создание счета")
     @ApiResponses(value = {

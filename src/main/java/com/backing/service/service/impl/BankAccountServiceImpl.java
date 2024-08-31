@@ -1,5 +1,6 @@
 package com.backing.service.service.impl;
 
+import com.backing.service.controller.BankAccountRestController;
 import com.backing.service.dto.request.BankAccountRequestDto;
 import com.backing.service.dto.response.BankAccountResponseDto;
 import com.backing.service.dto.response.BeneficiaryBankAccountResponseDto;
@@ -9,11 +10,19 @@ import com.backing.service.exception.EntityNotExistException;
 import com.backing.service.repository.BankAccountRepository;
 import com.backing.service.repository.BeneficiaryRepository;
 import com.backing.service.service.BankAccountService;
+import com.backing.service.service.TransactionHistoryService;
 import com.backing.service.util.AccountNumberUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,13 +30,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class BankAccountServiceImpl implements BankAccountService {
 
-    private final BankAccountRepository bankAccountRepository;
-    private final BeneficiaryRepository beneficiaryRepository;
+    private  BankAccountRepository bankAccountRepository;
 
-    @Override
+    private  BeneficiaryRepository beneficiaryRepository;
+
+
+    public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, BeneficiaryRepository beneficiaryRepository) {
+        this.bankAccountRepository = bankAccountRepository;
+        this.beneficiaryRepository = beneficiaryRepository;
+    }
+
     @Transactional
     public void createBankAccount(BankAccountRequestDto bankAccountDto) {
         Beneficiary beneficiary = beneficiaryRepository.getByUsername(bankAccountDto.getUsername())
@@ -39,7 +53,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccountRepository.save(bankAccount);
     }
 
-    @Override
+
     public Page<BeneficiaryBankAccountResponseDto> getBeneficiaryBankAccountResponseDto(Integer pageNumber, Integer itemsOnPage) {
         Page<BeneficiaryBankAccountResponseDto> page = beneficiaryRepository.getAllBeneficiaryDto(PageRequest.of(pageNumber - 1, itemsOnPage));
         List<Long> beneficiaryIds = page.getContent().stream()
@@ -47,11 +61,17 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .toList();
 
         Map<Long, List<BankAccountResponseDto>> beneficiaryIdToBankAccountMap = getBeneficiaryIdToBankAccountMapByBeneficiaryIds(beneficiaryIds);
+        test();
         page.getContent().forEach(beneficiary -> beneficiary.setBankAccounts(beneficiaryIdToBankAccountMap.get(beneficiary.getId())));
         return page;
     }
 
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public String test() {
+        System.out.println("SSS");
+        return new String("S");
+    }
 
     private Map<Long, List<BankAccountResponseDto>> getBeneficiaryIdToBankAccountMapByBeneficiaryIds(List<Long> beneficiaryIds) {
         List<BankAccountResponseDto> bankAccounts = bankAccountRepository.getByBeneficiaryIds(beneficiaryIds);

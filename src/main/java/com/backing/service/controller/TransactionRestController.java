@@ -30,25 +30,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class TransactionRestController {
 
-    private final TransactionHistoryService transactionHistoryService;
     private final Map<TransactionType, TransactionService> transactionServiceMap;
 
-    @Operation(summary = "Получение всей истории транзакций по id конкретного счет")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Успешное получение истории транзакций",
-                    content = @Content(schema = @Schema(implementation = TransactionHistoryResponseDto.class))
-            ),
-            @ApiResponse(responseCode = "400", description = "Счета с переданным id не существует")
-    })
-    @GetMapping("/page/{pageNumber}/history")
-    public ResponseEntity<Page<TransactionHistoryResponseDto>> getTransactionHistoryByBankAccountId(
-            @PathVariable Long bankAccountId,
-            @PathVariable Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer itemsOnPage) {
-        return ResponseEntity.ok(transactionHistoryService.getByBankAccountId(bankAccountId, pageNumber, itemsOnPage));
-    }
 
     @Operation(summary = "Пополнение средств")
     @ApiResponses(value = {
